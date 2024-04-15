@@ -3,7 +3,7 @@ import {deleteCount} from "@/app/lib/letterServices";
 
 export default function Home() {
   return (
-    <main className={'flex justify-around flex-wrap m-8 my-[10vh]'}>
+    <main className={'flex justify-around flex-wrap overflow-y-hidden m-8 my-[10vh]'}>
       <LetterInfo/>
       <div className={'border-2 border-black w-4/5 h-[20vh] my-[10vh] '}>
           this is an example website
