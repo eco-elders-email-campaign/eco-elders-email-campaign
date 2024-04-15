@@ -5,11 +5,15 @@ import {getNextLetter} from "@/app/lib/letterServices";
 
 interface Letter {
     fname?:string,
+    mname?:string,
     lname?:string,
-    address?:string,
+    houseNumber?:string,
+    aptUnitNumber?:string,
+    streetName?:string,
     zip?:string,
-    state?:string,
     city?:string,
+    state?:string,
+    country?:string,
 }
 
 export default function LetterInfo(){
@@ -28,7 +32,7 @@ export default function LetterInfo(){
     }
 
     return(
-        <div className={'border-2 border-black w-3/5 h-[40vh] py-[10vh] bg-yellow-100 relative hover:animate-fall'}>
+        <div className={'border-2 border-black w-3/5 h-[40vh] py-[10vh] bg-yellow-100 relative '}>
 
             <div className={'outline-offset-0 outline-dotted outline-black border-4 border-red-600 border-double bg-red-400 p-8 w-[8vw] h-[6vh] flex justify-center items-center text-center float-right right-0 top-0 m-4 absolute bg-contain bg-duck'}><button className={'w-fill h-fill '} onClick={getNext}>Next Address</button></div>
             {message?
@@ -40,8 +44,10 @@ export default function LetterInfo(){
                 :
                 <div className={'border-2 border-black w-2/5 h-full mx-auto'}>
 
-                    <p>{letter.fname}</p>
-                    <p>{letter.address}</p>
+                    <p>{letter.fname} {letter.lname}</p>
+                    <p>{letter.houseNumber} {letter.streetName} {letter.aptUnitNumber!==''?`${letter.aptUnitNumber}`:null}</p>
+                    <p>{letter.city} {letter.state} {letter.zip}</p>
+                    <p>{letter.country}</p>
                 </div>
             }
 
