@@ -45,17 +45,23 @@ export  async function deleteCount(){
 
 export  async function getNextLetter():Promise<LetterPromise>{
     let rowNum = 2
+
+
     try{
-        rowNum = parseInt(fs.readFileSync('./parserfiles/currLine.txt',{encoding:'utf8'}))
-    }catch(e:any){
-        if(e.errno === -4058){
-            console.log('No file. defaulting to line 2 (first line past headers) and creating file.')
-            fs.writeFileSync('./parserfiles/currLine.txt','')
-        }else{
-            console.error(e)
+        try{
+            rowNum = parseInt(fs.readFileSync('./parserfiles/currLine.txt',{encoding:'utf8'}))
+        }catch(e:any){
+            if(e.errno === -4058){
+                console.log('No file. defaulting to line 2 (first line past headers) and creating file.')
+                console.log('If this error repeats, file permissions are not set correctly.')
+                fs.writeFileSync('./parserfiles/currLine.txt','')
+            }else{
+                throw e
+            }
         }
-    }
-    try{
+        if(!fs.existsSync('./parserfiles/voterfile.csv')){
+            throw new Error("Voterfile is missing!")
+        }
         // let info:LetterInfo = {
         //     fname: "",
         //     lname: "",
@@ -79,7 +85,6 @@ export  async function getNextLetter():Promise<LetterPromise>{
         })
 
         return await new Promise((resolve) => {
-            console.log(rowNum)
             readl.oneline('parserfiles/voterfile.csv', rowNum, (err: string, res: string) => {
                 let info:LetterInfo = {}
                 if (err) {
@@ -133,6 +138,6 @@ export  async function getNextLetter():Promise<LetterPromise>{
         })
     }catch(err:any){
         console.error(err)
-        return({success:false,info:{},message:''})
+        return({success:false,info:{},message:err.message})
     }
 }
