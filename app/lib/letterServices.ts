@@ -7,11 +7,25 @@ import {isRedirectError} from "next/dist/client/components/redirect";
 
 interface LetterInfo {
     fname?:string,
+    mname?:string,
     lname?:string,
-    address?:string,
+    streetName?:string,
+    streetSuffix?:string,
+    houseNumber?:string,
+    aptUnitNumber?:string,
     zip?:string,
     state?:string,
     city?:string,
+    country?:string,
+    // mailHouseNumber?:string,
+    // mailStreetName?:string,
+    // mailAptUnitNumber?:string,
+    // mailCity?:string,
+    // mailStreet?:string,
+    // mailZipCode?:string,
+    // mailAddress2?:string,
+    // mailAddress3?:string,
+    // mailCountry?:string
 }
 interface LetterPromise{
     success:boolean,
@@ -42,27 +56,72 @@ export  async function getNextLetter():Promise<LetterPromise>{
         }
     }
     try{
-        let info:LetterInfo = {
-            fname: "",
-            lname: "",
-            address: "",
-            zip: "",
-            state: "",
-            city: "",
-        }
+        // let info:LetterInfo = {
+        //     fname: "",
+        //     lname: "",
+        //     // address: "",
+        //     zip: "",
+        //     state: "",
+        //     city: "",
+        // }
+        let csvRow:any = await new Promise (resolve=>{
+            readl.oneline('voterfile.csv',1,(err: string, res: string)=>{
+                let keys = {}
+                if (err) {
+                    console.error(err);
+                }
+                Object.values(res.split(',')).map(key => {
+                    // @ts-ignore
+                    keys[key.substring(1,key.length-1).toLowerCase().replaceAll(' ','_')] = ''
+                })
+                resolve(keys)
+            })
+        })
+
         return await new Promise((resolve) => {
-            readl.oneline('exampledata.csv', rowNum, (err: string, res: string) => {
+            readl.oneline('voterfile.csv', rowNum, (err: string, res: string) => {
+                let info:LetterInfo = {}
                 if (err) {
                     console.error(err);
                 }
                 let success = false;
                 let message = '';
                 if (res !== '') {
+                    // console.log(res)
                     let resInf = res.split(',')
-                    Object.keys(info).map((key, index) => {
+                    Object.keys(csvRow).map((key, index) => {
                         // @ts-ignore
-                        info[key] = resInf[index]
+                        csvRow[key] = resInf[index]
                     })
+                    console.log(csvRow)
+                    if(csvRow['mailing_zipcode']==='""'){
+                        info = {
+                            fname:csvRow['first_name'],
+                            mname: csvRow['middle_name'] === '""'?null:csvRow['middle_name'],
+                            lname:csvRow['last_name'],
+                            houseNumber:csvRow['residence_street_number'].replaceAll('"',''),
+                            aptUnitNumber:csvRow['residence_apt_unit_number'].replaceAll('"',''),
+                            streetName:csvRow['residence_street_name'],
+                            city:csvRow['residence_city'],
+                            state:csvRow['mailing_state']==="GEORGIA"?'GA':'',
+                            zip:csvRow['residence_zipcode'].replaceAll('"',''),
+                            country: csvRow['mailing_country'] === '""'?"USA":csvRow['mailing_country'],
+                        }
+                    }else{
+                        info = {
+                            fname:csvRow['first_name'],
+                            mname: csvRow['middle_name'] === '""'?null:csvRow['middle_name'],
+                            lname:csvRow['last_name'],
+                            houseNumber:csvRow['mailing_street_number'].replaceAll('"',''),
+                            aptUnitNumber:csvRow['mailing_apt_unit_number'].replaceAll('"',''),
+                            streetName:csvRow['mailing_street_name'],
+                            city:csvRow['mailing_city'],
+                            state:csvRow['mailing_state']==="GEORGIA"?'GA':'',
+                            zip:csvRow['mailing_zipcode'].replaceAll('"',''),
+                            country:'USA',
+                        }
+                    }
+                    console.log(info)
                     success = true
                 } else {
                     message = 'No more addresses to read!'

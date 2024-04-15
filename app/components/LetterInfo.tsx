@@ -5,11 +5,15 @@ import {getNextLetter} from "@/app/lib/letterServices";
 
 interface Letter {
     fname?:string,
+    mname?:string,
     lname?:string,
-    address?:string,
+    houseNumber?:string,
+    aptUnitNumber?:string,
+    streetName?:string,
     zip?:string,
-    state?:string,
     city?:string,
+    state?:string,
+    country?:string,
 }
 
 export default function LetterInfo(){
@@ -39,8 +43,10 @@ export default function LetterInfo(){
                 :
                 <div className={'border-2 border-black w-2/5 h-full mx-auto'}>
 
-                    <p>{letter.fname}</p>
-                    <p>{letter.address}</p>
+                    <p>{letter.fname} {letter.lname}</p>
+                    <p>{letter.houseNumber} {letter.streetName} {letter.aptUnitNumber!==''?`${letter.aptUnitNumber}`:null}</p>
+                    <p>{letter.city} {letter.state} {letter.zip}</p>
+                    <p>{letter.country}</p>
                 </div>
             }
 
