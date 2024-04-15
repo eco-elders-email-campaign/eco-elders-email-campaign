@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  eco-emails:
+#    image: node:20-alpine
+    build: .
+    ports:
+      - "80:3000"
+    volumes:
+      - .:/app
+      - /app/.next
+      - /app/node_modules
+#  nginx:
+#    build: ./nginx
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    depends_on:
+#      - eco-emails

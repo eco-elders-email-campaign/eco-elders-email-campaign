@@ -93,7 +93,6 @@ export  async function getNextLetter():Promise<LetterPromise>{
                         // @ts-ignore
                         csvRow[key] = resInf[index]
                     })
-                    console.log(csvRow)
                     if(csvRow['mailing_zipcode']==='""'){
                         info = {
                             fname:csvRow['first_name'],
@@ -101,7 +100,7 @@ export  async function getNextLetter():Promise<LetterPromise>{
                             lname:csvRow['last_name'],
                             houseNumber:csvRow['residence_street_number'].replaceAll('"',''),
                             aptUnitNumber:csvRow['residence_apt_unit_number'].replaceAll('"',''),
-                            streetName:csvRow['residence_street_name'],
+                            streetName:csvRow['residence_street_name'].replaceAll('"',''),
                             city:csvRow['residence_city'],
                             state:csvRow['mailing_state']==="GEORGIA"?'GA':'',
                             zip:csvRow['residence_zipcode'].replaceAll('"',''),
@@ -114,14 +113,13 @@ export  async function getNextLetter():Promise<LetterPromise>{
                             lname:csvRow['last_name'],
                             houseNumber:csvRow['mailing_street_number'].replaceAll('"',''),
                             aptUnitNumber:csvRow['mailing_apt_unit_number'].replaceAll('"',''),
-                            streetName:csvRow['mailing_street_name'],
+                            streetName:csvRow['mailing_street_name'].replaceAll('"',''),
                             city:csvRow['mailing_city'],
                             state:csvRow['mailing_state']==="GEORGIA"?'GA':'',
                             zip:csvRow['mailing_zipcode'].replaceAll('"',''),
                             country:'USA',
                         }
                     }
-                    console.log(info)
                     success = true
                 } else {
                     message = 'No more addresses to read!'

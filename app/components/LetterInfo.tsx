@@ -18,11 +18,10 @@ interface Letter {
 
 export default function LetterInfo(){
     const [letter,setLetter]= useState<Letter>({})
-    const [message,setMessage]= useState<string|undefined>("Please click the stamp to get an address")
+    const [message,setMessage]= useState<string|undefined>('Click the stamp to get an address!')
 
     const getNext=async () => {
         let res = await getNextLetter()
-        console.log(res)
         if(res.success){
             setLetter(res.info)
             setMessage('')
@@ -32,18 +31,16 @@ export default function LetterInfo(){
     }
 
     return(
-        <div className={'border-2 border-black w-3/5 h-[40vh] py-[10vh] bg-yellow-100 relative '}>
-
-            <div className={'outline-offset-0 outline-dotted outline-black border-4 border-red-600 border-double bg-red-400 p-8 w-[8vw] h-[6vh] flex justify-center items-center text-center float-right right-0 top-0 m-4 absolute bg-contain bg-duck'}><button className={'w-fill h-fill '} onClick={getNext}>Next Address</button></div>
+        <div className={'w-3/5 h-[40vh] py-[10vh] bg-yellow-100 border-[1px] border-black relative '}>
+            <div onClick={getNext} className={'outline-offset-0 hover:cursor-pointer outline-dotted outline-black border-4 border-red-600 border-double bg-red-400 p-8 w-[8vw] h-[6vh] flex justify-center items-center text-center float-right right-0 top-0 m-4 absolute bg-contain  bg-duck'} >Next Address</div>
             {message?
-                <div className={'border-2 border-black w-2/5 h-full mx-auto'}>
+                <div className={'w-2/5 h-full m-auto grid content-center'}>
                     <p className={'text-2xl text-red-600 text-center'}>
                         {message}
                     </p>
                 </div>
                 :
-                <div className={'border-2 border-black w-2/5 h-full mx-auto'}>
-
+                <div className={'text-left pr-16 w-fit h-full mx-auto '}>
                     <p>{letter.fname} {letter.lname}</p>
                     <p>{letter.houseNumber} {letter.streetName} {letter.aptUnitNumber!==''?`${letter.aptUnitNumber}`:null}</p>
                     <p>{letter.city} {letter.state} {letter.zip}</p>
