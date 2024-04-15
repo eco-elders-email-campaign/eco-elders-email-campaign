@@ -79,7 +79,6 @@ export  async function getNextLetter():Promise<LetterPromise>{
         })
 
         return await new Promise((resolve) => {
-            console.log(rowNum)
             readl.oneline('parserfiles/voterfile.csv', rowNum, (err: string, res: string) => {
                 let info:LetterInfo = {}
                 if (err) {
