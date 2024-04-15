@@ -9,6 +9,7 @@ services:
       - .:/app
       - /app/.next
       - /app/node_modules
+      - ./parserfiles:/parserfiles
 #  nginx:
 #    build: ./nginx
 #    ports:
