@@ -34,7 +34,7 @@ interface LetterPromise{
 }
 export  async function deleteCount(){
     try{
-        fs.rmSync('currLine.txt')
+        fs.rmSync('./parserfiles/currLine.txt')
     }catch(err){
         if(isRedirectError(err)){
             throw err
@@ -46,11 +46,11 @@ export  async function deleteCount(){
 export  async function getNextLetter():Promise<LetterPromise>{
     let rowNum = 2
     try{
-        rowNum = parseInt(fs.readFileSync('currLine.txt',{encoding:'utf8'}))
+        rowNum = parseInt(fs.readFileSync('./parserfiles/currLine.txt',{encoding:'utf8'}))
     }catch(e:any){
         if(e.errno === -4058){
             console.log('No file. defaulting to line 2 (first line past headers) and creating file.')
-            fs.writeFileSync('currLine.txt','')
+            fs.writeFileSync('./parserfiles/currLine.txt','')
         }else{
             console.error(e)
         }
@@ -65,7 +65,7 @@ export  async function getNextLetter():Promise<LetterPromise>{
         //     city: "",
         // }
         let csvRow:any = await new Promise (resolve=>{
-            readl.oneline('voterfile.csv',1,(err: string, res: string)=>{
+            readl.oneline('parserfiles/voterfile.csv',1,(err: string, res: string)=>{
                 let keys = {}
                 if (err) {
                     console.error(err);
@@ -79,7 +79,8 @@ export  async function getNextLetter():Promise<LetterPromise>{
         })
 
         return await new Promise((resolve) => {
-            readl.oneline('voterfile.csv', rowNum, (err: string, res: string) => {
+            console.log(rowNum)
+            readl.oneline('parserfiles/voterfile.csv', rowNum, (err: string, res: string) => {
                 let info:LetterInfo = {}
                 if (err) {
                     console.error(err);
@@ -125,7 +126,7 @@ export  async function getNextLetter():Promise<LetterPromise>{
                     message = 'No more addresses to read!'
                     success = false
                 }
-                fs.writeFile('currLine.txt', (rowNum + 1).toString(), () => {
+                fs.writeFile('./parserfiles/currLine.txt', (rowNum + 1).toString(), () => {
                 })
                 resolve({success,info,message})
             })
