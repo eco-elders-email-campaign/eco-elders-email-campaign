@@ -41,7 +41,7 @@ export async function readContent(){
                     // @ts-ignore
                     newContent.list.push(line.substring(1))
                 }else{
-                    newContent.paragraph+=line
+                    newContent.paragraph+=`${line} `
                 }
             }
             count++;
