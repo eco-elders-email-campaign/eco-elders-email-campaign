@@ -1,6 +1,5 @@
 import LetterInfo from "@/app/components/LetterInfo";
 import TextContent from "@/app/components/TextContent"
-import {deleteCount} from "@/app/lib/letterServices";
 
 export default function Home() {
     return (

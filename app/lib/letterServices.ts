@@ -45,8 +45,6 @@ export  async function deleteCount(){
 
 export  async function getNextLetter():Promise<LetterPromise>{
     let rowNum = 2
-
-
     try{
         try{
             rowNum = parseInt(fs.readFileSync('./parserfiles/currLine.txt',{encoding:'utf8'}))
