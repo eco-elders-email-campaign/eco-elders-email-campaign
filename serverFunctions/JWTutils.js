@@ -11,7 +11,7 @@ export async function setJwt(data){
         cookies().set('jwtoken',token,{
             httpOnly: true,
             sameSite: "strict",
-            secure: process.env.NODE_ENV === 'production',
+            // secure: process.env.NODE_ENV === 'production',
             maxAge: 60 * 60
         })
         return true
