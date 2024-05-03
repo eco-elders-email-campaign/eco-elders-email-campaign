@@ -23,7 +23,7 @@ export default function LoginForm(){
             <form onSubmit={handleSubmit} ref={formRef} className={'grid h-[20vh]'}>
                 <label>
                     <span>Enter your password:</span>
-                    <input type={'text'} name={'password'} className={'border-2 border-black rounded-lg'}/>
+                    <input type={'text'} required={true} name={'password'} className={'border-2 border-black rounded-lg'}/>
                 </label>
                 <p className={'text-center'}>
                     {message}
