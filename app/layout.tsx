@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Eco-Elders Email Campaign",
-  description: "Address service for the Eco elders email campaign",
+  title: "Letters for Climate Campaign",
+  description: "Climate focused letter writing campaign for the upcoming 2024 election",
 };
 
 export default function RootLayout({

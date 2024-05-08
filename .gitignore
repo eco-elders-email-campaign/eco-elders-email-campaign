@@ -40,5 +40,4 @@ next-env.d.ts
 
 /parserfiles/*
 myREADME.md
-
-.env
+/.env
