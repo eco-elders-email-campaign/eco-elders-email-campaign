@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cloudflare-export":"npx @cloudflare/next-on-pages@1"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.11.3",
     "jsonwebtoken": "^9.0.2",
     "next": "14.1.4",
     "react": "^18",
